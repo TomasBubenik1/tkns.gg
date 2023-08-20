@@ -8,7 +8,7 @@ import MatchItem from "./components/MatchItem";
 import CreateMatchModal from "./components/CreateMatchModal";
 import { Routes, Route, Link } from "react-router-dom";
 import MatchPage from "./components/MatchPage";
-
+import { signInWithGoogle } from "./services/AuthService";
 const theme = createTheme({
   palette: {
     primary: {
@@ -55,7 +55,7 @@ function App() {
           </div>
           <div className="login-button">
             <button>Login</button>
-            <button>Register</button>
+            <button onClick={signInWithGoogle}>Register</button>
           </div>
         </header>
         <div>

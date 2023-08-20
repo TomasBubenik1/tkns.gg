@@ -1,11 +1,8 @@
 import { db } from "../firebase-config";
 import { addDoc, collection, doc, getDocs, onSnapshot, deleteDoc } from "firebase/firestore";
 
-
-
 const usersCollectionRef = collection(db, "users");
 const matchCollectionRef = collection(db, "matches");
-
 
 export const getUsers = async () => {
   const data = await getDocs(usersCollectionRef);
@@ -31,13 +28,11 @@ export const deleteMatch = async (matchId) => {
   }
 };
 
-
 export const getMatches = (callback) => {
   const unsubscribe = onSnapshot(matchCollectionRef, (snapshot) => {
     const matchData = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     callback(matchData);
   });
-
   return unsubscribe;
 };
 
