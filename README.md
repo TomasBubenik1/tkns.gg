@@ -1,7 +1,7 @@
 
 # *Tkns.GG*
 
-### **WebApp where you can compete with other people in online games for 💲💲💲**
+### **Competetive platform where you can compete with other people in online games for 💲💲💲 prizes.**
 
 ## WIP:
 
