@@ -1,0 +1,55 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: rgb(33, 55, 68);
+  box-shadow: 0 10px 8px rgba(0, 0, 0, 0.199);
+  height: 70px;
+}
+
+.logo {
+  flex: 1;
+}
+
+.buttons {
+  flex: 3;
+  display: flex;
+  justify-content: center; /* Center buttons horizontally */
+}
+
+.buttons button {
+  margin: 5px; /* Add 5px margin between buttons */
+}
+
+.login-button {
+  flex: 1;
+  text-align: right;
+}
+
+.login-button button {
+  margin: 5px;
+}
+
+.logo{
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  padding-left: 5px;
+  margin-left: auto; /* Move the logo to the right */
+}
+
+.matches-container{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  background-color: #2196F3;
+  padding: 10px;
+}
+
+.matches-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  font-size: 15px;
+  text-align: center;
+  
+}
