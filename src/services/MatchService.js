@@ -40,6 +40,3 @@ export const getMatches = (callback) => {
   return unsubscribe;
 };
 
-export function JoinMatch(){
-  console.log(user)
-}

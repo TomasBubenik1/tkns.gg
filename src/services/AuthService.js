@@ -1,5 +1,5 @@
 import { db } from "../firebase-config";
-import { addDoc, collection, doc, getDocs, onSnapshot, deleteDoc,setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, onSnapshot, deleteDoc,setDoc,getDoc } from "firebase/firestore";
 import { useState,createContext,useContext} from "react";
 import { getAuth } from "firebase/auth";
 import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
@@ -21,21 +21,28 @@ export const getUserFromCookies = () => {
 export function AuthProvider({ children }) {
   const auth = getAuth();
   const [user, setUser] = useState(null);
+  const userCookie = Cookies.get('user');
+  const userData = userCookie ? JSON.parse(userCookie) : null;
+
 
      const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, googleprovider);
     const user = result.user;
+    const userDocRef = doc(usersCollectionRef, user.uid);
+    const existingData =  await getDoc(userDocRef);
+    const existingUserData = existingData.data();
+
 
      const userData = {
       uid: user.uid,
       email: user.email,
       username: user.displayName,
-      nickname: "Default Nick (Change it in profile settings)"
-    };
-
-    const userDocRef = doc(usersCollectionRef, user.uid);
-    await setDoc(userDocRef, userData);
+      balance: existingUserData && existingUserData.balance ? existingUserData.balance:0,
+      nickname: existingUserData && existingUserData.nickname ? existingUserData.nickname: "Default Nick (Change it in profile settings)",
+      };
+    
+      await setDoc(userDocRef, userData);
     setUser(userData);
     
     Cookies.set('user', JSON.stringify(userData));
