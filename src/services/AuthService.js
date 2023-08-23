@@ -1,25 +1,57 @@
 import { db } from "../firebase-config";
-import { addDoc, collection, doc, getDocs, onSnapshot, deleteDoc } from "firebase/firestore";
-import { useState } from "react";
-import {  auth } from '../firebase-config';
+import { addDoc, collection, doc, getDocs, onSnapshot, deleteDoc,setDoc } from "firebase/firestore";
+import { useState,createContext,useContext} from "react";
+import { getAuth } from "firebase/auth";
 import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
+import Cookies from 'js-cookie';
+
 
 
 
 const usersCollectionRef = collection(db, "users");
 const googleprovider = new GoogleAuthProvider()
+const AuthContext = createContext();
 
-export const signInWithGoogle = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleprovider);
-      const userData = {
-        email: result.user.email,
-        username: result.user.displayName   
-      };
-     await  addDoc(usersCollectionRef, userData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  
+export const getUserFromCookies = () => {
+  const userCookie = Cookies.get('user');
+  return userCookie ? JSON.parse(userCookie) : null;
+};
+
+export function AuthProvider({ children }) {
+  const auth = getAuth();
+  const [user, setUser] = useState(null);
+
+     const signInWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, googleprovider);
+    const user = result.user;
+
+     const userData = {
+      uid: user.uid,
+      email: user.email,
+      username: user.displayName,
+      nickname: "Default Nick (Change it in profile settings)"
+    };
+
+    const userDocRef = doc(usersCollectionRef, user.uid);
+    await setDoc(userDocRef, userData);
+    setUser(userData);
+    
+    Cookies.set('user', JSON.stringify(userData));
+
+    console.log("User data stored in Firestore");
+  } catch (error) {
+    console.log(error);
+  }
+}
+return (
+  <AuthContext.Provider value={{ user, signInWithGoogle }}>
+    {children}
+  </AuthContext.Provider>
+);
+};
+
+export function useAuth() {
+  return useContext(AuthContext);
+}

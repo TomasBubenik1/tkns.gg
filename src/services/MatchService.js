@@ -1,8 +1,11 @@
 import { db } from "../firebase-config";
-import { addDoc, collection, doc, getDocs, onSnapshot, deleteDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, onSnapshot, deleteDoc,setDoc} from "firebase/firestore";
+import { getUserFromCookies } from '../services/AuthService';
 
 const usersCollectionRef = collection(db, "users");
 const matchCollectionRef = collection(db, "matches");
+const user = getUserFromCookies();
+
 
 export const getUsers = async () => {
   const data = await getDocs(usersCollectionRef);
@@ -12,6 +15,7 @@ export const getUsers = async () => {
 export const createMatch = async (matchData) => {
   try {
     const newMatchRef = await addDoc(matchCollectionRef, matchData);
+    
     const newMatchId = newMatchRef.id;
       
   } catch (error) {
@@ -36,3 +40,6 @@ export const getMatches = (callback) => {
   return unsubscribe;
 };
 
+export function JoinMatch(){
+  console.log(user)
+}

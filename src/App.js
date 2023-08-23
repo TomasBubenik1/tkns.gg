@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext} from "react";
 import "./App.css";
 import { getUsers, getMatches, deleteMatch } from "./services/MatchService";
 import { Grid, Button, Typography } from "@mui/material";
@@ -8,7 +8,9 @@ import MatchItem from "./components/MatchItem";
 import CreateMatchModal from "./components/CreateMatchModal";
 import { Routes, Route, Link } from "react-router-dom";
 import MatchPage from "./components/MatchPage";
-import { signInWithGoogle } from "./services/AuthService";
+import { useAuth } from "./services/AuthService";
+import "./images/bigPanelbg.png"
+import { UserComponent } from "./components/ProfileComponent";
 const theme = createTheme({
   palette: {
     primary: {
@@ -20,10 +22,23 @@ const theme = createTheme({
   },
 });
 
+function UpdateNickname() {
+  const { user, updateNickname } = useAuth();
+  const [newNickname, setNewNickname] = useState("");
+
+  const handleUpdateNickname = () => {
+    if (newNickname.trim() !== "") {
+      updateNickname(newNickname);
+    }
+  };
+}
+
 function App() {
   const [users, setUsers] = useState([]);
   const [matches, setMatches] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const { signInWithGoogle, user } = useAuth();
+
 
   useEffect(() => {
     getUsers().then((userData) => setUsers(userData));
@@ -47,6 +62,11 @@ function App() {
       <div className="App">
       <header className="header">
           <Link to={"/"} className="logo"><div>Tkns</div></Link>
+          <div>
+      
+      
+      
+    </div>
           <Button onClick={createMatch} variant="contained" color="primary" startIcon={<AddIcon />}>
             Create Match
           </Button>
@@ -56,17 +76,24 @@ function App() {
           <div className="login-button">
             <button>Login</button>
             <button onClick={signInWithGoogle}>Register</button>
+            <Link  to={'/profile'} element={<UserComponent/>}>Profile</Link>
           </div>
         </header>
+        <div className="toskoItem">
+            <div className="bigPanel" style={{backgroundImage:"bigPanelbg"}}>
         <div>
           <Routes>
             <Route path="/" element={<MatchList matches={matches} onDelete={deleteMatch} />} />
             <Route path="/matches/:matchId" element={<MatchPage />} />
             <Route path="*" element={<PageNotFound/>}/>
+            <Route path="/profile" element={<UserComponent/>}/>
           </Routes>
-        </div>
+        </div>  
+        
 
         <CreateMatchModal open={openModal} onClose={handleCloseModal} />
+            </div>
+        </div>
       </div>
     </ThemeProvider>
   );

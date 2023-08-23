@@ -27,6 +27,8 @@ const CreateMatchModal = ({ open, onClose }) => {
       matchtype: formData.gameMode,
       matchplayers: formData.numberOfPlayers,
       region: formData.region,
+      group1: [],
+      group2: []
     });
     onClose();
   };
