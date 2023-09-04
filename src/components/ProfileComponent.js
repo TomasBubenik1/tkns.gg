@@ -4,6 +4,7 @@ import { db } from "../firebase-config";
 import { updateDoc,collection, doc} from "@firebase/firestore";
 import Cookies from "js-cookie";
 
+
 const user = getUserFromCookies();
 const userCookie = Cookies.get('user');
 const userDataCookie = userCookie ? JSON.parse(userCookie) : null;

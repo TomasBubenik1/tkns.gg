@@ -12,6 +12,8 @@ const CreateMatchModal = ({ open, onClose }) => {
     gameMode: "",
     numberOfPlayers: "",
     region: "",
+    platform: "",
+    firstTo: "",
   });
 
   const handleInputChange = (event) => {
@@ -27,6 +29,8 @@ const CreateMatchModal = ({ open, onClose }) => {
       matchtype: formData.gameMode,
       matchplayers: formData.numberOfPlayers,
       region: formData.region,
+      platform: formData.platform,
+      firstTo: formData.firstTo,
       group1: [],
       group2: []
     });
@@ -55,7 +59,7 @@ const CreateMatchModal = ({ open, onClose }) => {
               <MenuItem value="Boxfights">Box Fights</MenuItem>
             </Select>
           </FormControl>
-          <FormControl fullWidth variant="outlined" sx={{ marginBottom: "16px" }}>
+          <FormControl fullWidth variant="outlined" sx={{ marginBottom: "16px", }}>
             <InputLabel id="number-of-players-label">Number of Players</InputLabel>
             <Select
               labelId="number-of-players-label"
@@ -71,7 +75,7 @@ const CreateMatchModal = ({ open, onClose }) => {
               <MenuItem value="4v4">4v4</MenuItem>
             </Select>
           </FormControl>
-          <FormControl fullWidth variant="outlined">
+          <FormControl fullWidth variant="outlined" sx={{ mb:"16px"}}>
             <InputLabel id="region-label">Region</InputLabel>
             <Select
               labelId="region-label"
@@ -88,6 +92,36 @@ const CreateMatchModal = ({ open, onClose }) => {
               <MenuItem value="Oceania">Oceania</MenuItem>
               <MenuItem value="Brazil">Brazil</MenuItem>
               <MenuItem value="Middle East">Middle East</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth variant="outlined" sx={{ marginBottom: "16px" }}>
+            <InputLabel id="number-of-players-label">Platform</InputLabel>
+            <Select
+              labelId="platform"
+              id="platform"
+              name="platform"
+              value={formData.platform}
+              onChange={handleInputChange}
+              label="Number of Players"
+            >
+              <MenuItem value="All platforms">All platforms</MenuItem>
+              <MenuItem value="Console">Console</MenuItem>
+
+            </Select>
+          </FormControl>
+          <FormControl fullWidth variant="outlined" sx={{ marginBottom: "" }}>
+            <InputLabel id="number-of-players-label">First To</InputLabel>
+            <Select
+              labelId="firstTo"
+              id="firstTo"
+              name="firstTo"
+              value={formData.firstTo}
+              onChange={handleInputChange}
+              label="Number of Players"
+            >
+              <MenuItem value="All platforms">3⁺²</MenuItem>
+              <MenuItem value="Console">5⁺²</MenuItem>
+
             </Select>
           </FormControl>
         </Box>
